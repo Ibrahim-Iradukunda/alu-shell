@@ -9,4 +9,4 @@ mkdir /tmp/my_first_directory: To create a script that creates a directory named
 mv /tmp/betty /tmp/my_first_directory/: to move a file from one director to another
 rm /tmp/my_first_directory/betty: to delete a file
 rmdir /tmp/my_first_directory: to delete a directory
-
+cd -: Changes the current directory to the previous working directory
