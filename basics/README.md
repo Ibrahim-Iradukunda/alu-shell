@@ -7,3 +7,4 @@ ls -la: Display current directory contents, including hidden files, starting wit
 ls -lna: Display current directory content, Long format, with user and group IDs displayed numerically, And hidden files (starting with .)
 mkdir /tmp/my_first_directory: To create a script that creates a directory named my_first_directory in the /tmp/ directory
 mv /tmp/betty /tmp/my_first_directory/: to move a file from one director to another
+rm /tmp/my_first_directory/betty: to delete
