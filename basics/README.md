@@ -15,3 +15,4 @@ file /tmp/iamafile: write a script that prints the type of the file named iamafi
 ln -s /bin/ls __ls__: Create a symbolic link
 cp -u *.html ../: a script that copies all HTML files from the current working directory to the parent directory
 mv [A-Z]* /tmp/u/: a script that moves all files beginning with an uppercase letter to the directory
+rm *~: script that deletes all files in the current working directory that end with the character ~
