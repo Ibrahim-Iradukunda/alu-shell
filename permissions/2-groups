@@ -1,2 +1,2 @@
 #!/bin/bash
-$(id -un) $(groups | cut -d ' ' -f 2-)
+groups
