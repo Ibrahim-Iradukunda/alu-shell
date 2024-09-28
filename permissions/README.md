@@ -13,3 +13,4 @@ find . -type d -exec chmod a+x {} +: Create a script that adds execute permissio
 mkdir -m 751 my_dir: a script that creates a directory called my_dir with permissions 751 in the working directory
 chgrp school hello: script that changes the group owner of the file hello to school
 chown vincent:staff *: a script that changes the owner to vincent and the group owner to staff for all the files and directories in the working directory
+chown --no-dereference vincent:staff _hello: a script that  change the owner and the group owner of a symbolic link _hello to vincent and staff, respectively, you can use the following script:
