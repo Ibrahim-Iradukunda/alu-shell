@@ -11,3 +11,4 @@ chmod 751 hello: a script that sets the mode of the file hello
 chmod --reference=olleh hello:  a script that sets the mode of the file hello the same as olleh’s mode
 find . -type d -exec chmod a+x {} +: Create a script that adds execute permission to all subdirectories of the current directory for the owner, the group owner and all other users. Regular files should not be changed
 mkdir -m 751 my_dir: a script that creates a directory called my_dir with permissions 751 in the working directory
+chgrp school hello: script that changes the group owner of the file hello to school
