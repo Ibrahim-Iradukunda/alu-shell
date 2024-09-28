@@ -1,2 +1,2 @@
 #!/bin/bash
-if [ -e hello ]; then chown vincent hello; fi
+chown vincent hello
