@@ -23,3 +23,4 @@ rev: a script that reverse its input.
 cut -d: -f1,6 /etc/passwd | sort: a script that displays all users and their home directories, sorted by users
 find . -empty | rev | cut -d '/' -f 1 | rev: script that displays all users and their home directories, sorted by the users
 find -type f -name "*.gif" | rev | cut -d "/" -f 1 | cut -d '.' -f 2- | rev | LC_ALL=C sort -f: To create a script that lists all files with a .gif extension in the current directory and its subdirectories
+cut -c 1 | paste -s '': a script that decodes acrostics that use the first letter of each line
