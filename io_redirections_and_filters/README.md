@@ -8,3 +8,4 @@ head -n 3 iacta | tail -n 1: a script that displays the third line of the file i
 echo 'Best School' > \\\*\\\\"'\"Best School\"\\'"\\\\\*\$\\\?\\\*\\\*\\\*\\\*\\\*:\) : a shell script that creates a file named exactly \*\\'"Best School"\'\\*$\?\*\*\*\*\*:) containing the text Best School ending by a new line
 ls -la > ls_cwd_content: script that writes the output of the ls -la command into a file named ls_cwd_content
 tail -n 1 iacta >> iacta: a script that duplicates the last line of the file iacta
+find . -type f -name "*.js" -delete: script that deletes all regular files with a .js extension
