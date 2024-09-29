@@ -22,3 +22,4 @@ tr -d 'cC': Create a script that removes all letters c and C from input.
 rev: a script that reverse its input.
 cut -d: -f1,6 /etc/passwd | sort: a script that displays all users and their home directories, sorted by users
 find . -empty | rev | cut -d '/' -f 1 | rev: script that displays all users and their home directories, sorted by the users
+find . -type f -iname "*.gif" | rev | cut -d "/" -f 1 | cut: To create a script that lists all files with a .gif extension in the current directory and its subdirectories
