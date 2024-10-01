@@ -15,3 +15,4 @@ echo {a..z}{a..z} | tr ' ' '\n' | grep  -v "oo": a script that prints all possib
 printf '%.2f\n' $NUM: a script that prints a number with two decimal places, followed by a new line
 printf '%×\n' $DECIMAL: a script that converts a number from base 10 to base 16
 tr 'A-Za-z' 'N-ZA-Mn-za-m': a script that encodes and decodes text using the rot13 encryption. Assume ASCII
+paste -d, -- | cut -d, -f1:a script that prints every other line from the input, starting with the first line
