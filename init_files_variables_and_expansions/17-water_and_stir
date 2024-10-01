@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $(($(echo "$WATER" | tr 'ewatr' '01234' | awk '{printf("%d\n", "ibase=5;" $0)}') + $(echo "$STIR" | tr 'ti.r' '0123' | awk '{printf("%d\n", "ibase=4;" $0)}'))) | awk '{printf("%d\n", "obase=9;" $0)}' | tr '012345678' 'shtbeolhc'
+printf "%s\n" $(( (5#$(echo "$WATER" | tr 'ewatr' '01234')) + (4#$(echo "$STIR" | tr 'ti.r' '0123')) )) | tr '012345678' 'shtbeolhc'
