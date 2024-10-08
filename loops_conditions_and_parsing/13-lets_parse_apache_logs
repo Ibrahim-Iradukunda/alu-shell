@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # This script parses Apache access logs to extract visitor IPs and HTTP status codes.
 
-# Check if the log file exists and is empty
+# Check if the log file exists
 if [[ ! -e apache-access.log ]]; then
     echo "Log file does not exist."
     exit 1
-elif [[ ! -s apache-access.log ]]; then
+fi
+
+# Check if the log file is empty
+if [[ ! -s apache-access.log ]]; then
     echo "Log file is empty."
     exit 0
 fi
