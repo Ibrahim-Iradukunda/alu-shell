@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script groups visitors by IP and HTTP status code from an Apache log file
+# This script groups visitors by IP and HTTP status code from an Apache log file.
 
 # Check if the log file exists
 if [[ ! -f apache-access.log ]]; then
@@ -7,22 +7,17 @@ if [[ ! -f apache-access.log ]]; then
     exit 0
 fi
 
-# Parse the log file
+# Parse the log file and group by IP and HTTP status code
 awk '
-    # Check for valid lines
-    $0 ~ /^[^ ]+ [^ ]+ [^ ]+ / {
-        ip[$1][$9]++
+    # Process each valid log entry
+    /^[^ ]+ [^ ]+ [^ ]+/ {
+        count[$1][$9]++
     }
     END {
-        # Check for empty log scenario
-        if (length(ip) == 0) {
-            print "Log file is empty."
-            exit
-        }
-        # Print occurrences and sort by occurrences
-        for (i in ip) {
-            for (j in ip[i]) {
-                print ip[i][j], i, j
+        # Print the occurrence number, IP, and HTTP code
+        for (ip in count) {
+            for (code in count[ip]) {
+                print count[ip][code], ip, code
             }
         }
     }
