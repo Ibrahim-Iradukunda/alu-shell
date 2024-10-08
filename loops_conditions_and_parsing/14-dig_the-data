@@ -1,16 +1,26 @@
 #!/usr/bin/env bash
 # This script groups visitors by IP and HTTP status code and displays the data.
+# It handles small, large, and incorrectly formatted log files.
+
+# Define the log file name
+LOG_FILE="apache-access.log"
 
 # Check if the log file exists and is not empty
-if [ ! -s apache-access.log ]; then
-    exit 0  # Exit with no output if the log file is empty or does not exist
+if [ ! -s "$LOG_FILE" ]; then
+    echo "Log file is either empty or does not exist."
+    exit 1  # Exit with an error code if the log file is empty or does not exist
 fi
 
-# Parse the log file using awk, group by IP and HTTP code, and display in the required format
-awk '{print $1, $9}' apache-access.log |               # Extract IP and HTTP code
-awk '{count[$1" "$2]++} END {                         # Count occurrences of each IP and HTTP code pair
-    for (entry in count) {                            # Loop through the counts
-        print count[entry], entry                     # Print the count followed by the IP and HTTP code
+# Parse the log file, handle small and large logs, and skip incorrect format lines
+awk '{
+    if (NF >= 9 && $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ && $9 ~ /^[0-9]+$/) {  # Ensure the line has at least 9 fields, a valid IP, and status code
+        count[$1" "$9]++  # Group by IP and HTTP status code
+    } else {
+        next  # Skip lines that dont match the correct format
     }
-}' | sort -nr                                         # Sort the results in numerical order, largest first
-
+}
+END {
+    for (entry in count) {
+        print count[entry], entry  # Print occurrences, IP, and HTTP code
+    }
+}' "$LOG_FILE" | sort -nr  # Sort in reverse order by occurrence number
