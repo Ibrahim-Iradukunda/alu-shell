@@ -1,13 +1,29 @@
 #!/usr/bin/env bash
 # This script groups visitors by IP and HTTP status code from an Apache log file
 
-# Check if the log file exists and is not empty
-if [[ ! -f apache-access.log || ! -s apache-access.log ]]; then
+# Check if the log file exists
+if [[ ! -f apache-access.log ]]; then
     echo "Log file is empty."
     exit 0
 fi
 
-# Parse the log file, group by IP and HTTP status code, count occurrences, and sort
-awk '{print $1, $9}' apache-access.log | \
-awk 'NF {count[$1, $2]++} END {for (i in count) print count[i], i}' | \
-sort -nr
+# Parse the log file
+awk '
+    # Check for valid lines
+    $0 ~ /^[^ ]+ [^ ]+ [^ ]+ / {
+        ip[$1][$9]++
+    }
+    END {
+        # Check for empty log scenario
+        if (length(ip) == 0) {
+            print "Log file is empty."
+            exit
+        }
+        # Print occurrences and sort by occurrences
+        for (i in ip) {
+            for (j in ip[i]) {
+                print ip[i][j], i, j
+            }
+        }
+    }
+' apache-access.log | sort -nr | awk '{print $0}'
