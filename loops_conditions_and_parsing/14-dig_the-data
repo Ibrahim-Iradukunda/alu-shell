@@ -14,9 +14,9 @@ fi
 # Parse the log file, handle small and large logs, and skip incorrect format lines
 awk '{
     if (NF >= 9 && $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ && $9 ~ /^[0-9]+$/) {  # Ensure the line has at least 9 fields, a valid IP, and status code
-        count[$1" "$9]++  # Group by IP and HTTP status code
+        count[$1 " " $9]++  # Group by IP and HTTP status code
     } else {
-        next  # Skip lines that dont match the correct format
+        next 
     }
 }
 END {
@@ -24,3 +24,4 @@ END {
         print count[entry], entry  # Print occurrences, IP, and HTTP code
     }
 }' "$LOG_FILE" | sort -nr  # Sort in reverse order by occurrence number
+
