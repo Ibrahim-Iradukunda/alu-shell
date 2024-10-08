@@ -7,13 +7,16 @@ while [ $count -le 20 ]  # Continue until the counter is greater than 20
 do
     case $count in
         4)
-            echo "$count - bad luck from China"  # Display 4 and the message
+            echo "$count"  # Display 4
+            echo "bad luck from China"  # Display message
             ;;
         9)
-            echo "$count - bad luck from Japan"  # Display 9 and the message
+            echo "$count"  # Display 9
+            echo "bad luck from Japan"  # Display message
             ;;
         17)
-            echo "$count - bad luck from Italy"  # Display 17 and the message
+            echo "$count"  # Display 17
+            echo "bad luck from Italy"  # Display message
             ;;
         *)
             echo "$count"  # Display the number for all other iterations
