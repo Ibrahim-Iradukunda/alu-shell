@@ -1,24 +1,17 @@
 #!/usr/bin/env bash
-# This script groups visitors by IP and HTTP status code from an Apache log file.
+# This script parses Apache access logs to extract visitor IPs, HTTP status codes, 
+# groups them by occurrence, and displays them sorted from highest to lowest occurrences.
 
-# Check if the log file exists
-if [[ ! -f apache-access.log ]]; then
-    echo "Log file is empty."
-    exit 0
+# Check if the log file exists and is not empty
+if [ ! -s apache-access.log ]; then
+    exit 0  # Exit silently if the log file is empty or does not exist
 fi
 
-# Parse the log file and group by IP and HTTP status code
-awk '
-    # Process each valid log entry
-    /^[^ ]+ [^ ]+ [^ ]+/ {
-        count[$1][$9]++
+# Use awk to extract IP and HTTP status code, group them, count occurrences, and sort the result
+awk '{print $1, $9}' apache-access.log | awk '{
+    count[$1" "$2]++
+} END {
+    for (entry in count) {
+        print count[entry], entry
     }
-    END {
-        # Print the occurrence number, IP, and HTTP code
-        for (ip in count) {
-            for (code in count[ip]) {
-                print count[ip][code], ip, code
-            }
-        }
-    }
-' apache-access.log | sort -nr | awk '{print $0}'
+}' | sort -nr
