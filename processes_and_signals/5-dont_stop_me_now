@@ -2,7 +2,10 @@
 # This script stops the 4-to_infinity_and_beyond process
 
 # Use pgrep to find PIDs of the 4-to_infinity_and_beyond process
-readarray -t prog_pid < <(pgrep -la "4-to_infinity_and_beyond" | awk '{print $1}')
+readarray -t prog_pid < <(pgrep -la "4-to_infinity_and_beyond")
+
+# Debugging output
+echo "Found PIDs: ${prog_pid[*]}"
 
 # Check if any PIDs were found
 if [[ ${#prog_pid[@]} -eq 0 ]]; then
