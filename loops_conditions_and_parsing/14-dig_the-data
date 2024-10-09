@@ -1,17 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# This script processes Apache log files to count occurrences of IP addresses and HTTP status codes
 
 # Define the log file location (update this path as necessary)
 LOG_FILE="/path/to/apache/logfile.log"
 
-# Process the log file and display occurrences of each IP and HTTP status code
-awk '{print $1, $9}' "$LOG_FILE" | 
-    awk '{
-        count[$1 " " $2]++
-    } END {
+# Check if the log file exists and is readable
+if [[ ! -r "$LOG_FILE" ]]; then
+    echo "Error: Log file does not exist or is not readable."
+    exit 1
+fi
+
+# Process the log file
+awk '
+    {
+        # Check if the line has enough fields
+        if (NF < 9) {
+            print "Error: Wrong format log file."
+            exit
+        }
+        
+        # Group by IP and HTTP status code
+        count[$1 " " $9]++
+    } 
+    END {
+        # Print occurrences in the desired format
         for (entry in count) {
             print count[entry], entry
         }
-    }' | 
-    sort -nr | 
-    awk '{print $1, $2, $3}'
+    }
+' "$LOG_FILE" | sort -nr || echo "Error: Empty log file."
 
