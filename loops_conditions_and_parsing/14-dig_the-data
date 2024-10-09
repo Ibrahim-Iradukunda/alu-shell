@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-# This script processes Apache log files to count occurrences of IP addresses and HTTP status codes
+#This script processes Apache log files to count occurrences of IP addresses and HTTP status codes
 
 # Define the log file location (update this path as necessary)
 LOG_FILE="/path/to/apache/logfile.log"
