@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# This script manages its PID, runs indefinitely, and handles signals
+while [[ 1 -eq 1 ]]; do
+echo "I am alive!" >> /tmp/my_process
+sleep 2
+done
