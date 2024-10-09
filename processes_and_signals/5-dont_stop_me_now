@@ -13,7 +13,7 @@ fi
 # Use kill to stop the process
 kill "$pid"
 
-# Optionally, you can confirm that the process has been terminated
+# Optional: Confirm if the process has been terminated
 if ! kill -0 "$pid" 2>/dev/null; then
     echo "4-to_infinity_and_beyond process has been terminated."
 else
