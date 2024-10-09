@@ -1,29 +1,36 @@
 #!/usr/bin/env bash
 # 11-manage_my_process - Manages the manage_my_process script
 
-if [[ "$#" == "1" ]]; then 
-if [[ "$1" == "start" ]]; then
- ./manage_my_process &
- echo "$!" > /var/run/my_process.pid
- echo "manage_my_process started"
-elif [[ "$1" == "stop" ]]; then
- if test -f "/var/run/my_process.pid"; then
- kill "$(cat /var/run/my_process.pid)"
-fi
-rm/var/run/my_process.pid
-echo "manage_my_process stopped"
-elif [[ "$1" == "restart" ]]; then
-#stop program 
-if test -f "/var/run/my_process.pid"; then
- kill "$(cat /var/run/my_process.pid)"
-fi
-#start program
- ./manage_my_process &
- echo "$!" > /var/run/my_process.pid
- echo "manage_my_process restarted"
+if [[ "$#" == "1" ]]; then
+    if [[ "$1" == "start" ]]; then
+        ./manage_my_process &  # Start the manage_my_process script in the background
+        echo "$!" > /var/run/my_process.pid  # Store the process ID in the pid file
+        echo "manage_my_process started"
+
+    elif [[ "$1" == "stop" ]]; then
+        if test -f "/var/run/my_process.pid"; then
+            kill "$(cat /var/run/my_process.pid)"  # Kill the process
+            rm /var/run/my_process.pid  # Remove the PID file (corrected from rm/var/run)
+            echo "manage_my_process stopped"
+        else
+            echo "No running instance of manage_my_process found."
+        fi
+
+    elif [[ "$1" == "restart" ]]; then
+        # Stop the program if running
+        if test -f "/var/run/my_process.pid"; then
+            kill "$(cat /var/run/my_process.pid)"
+            rm /var/run/my_process.pid
+        fi
+        # Start the program again
+        ./manage_my_process &  # Restart the process
+        echo "$!" > /var/run/my_process.pid
+        echo "manage_my_process restarted"
+
+    else
+        echo "Usage: manage_my_process {start|stop|restart}"
+    fi
 else
-echo "Usage: manage_my_process {start/stop|restart}"
+    echo "Usage: manage_my_process {start|stop|restart}"
 fi
-else
-echo "Usage: manage_my_process {start/stop|restart}"
-fi
+
