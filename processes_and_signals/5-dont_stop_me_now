@@ -4,18 +4,13 @@
 # Use pgrep to find PIDs of the 4-to_infinity_and_beyond process
 readarray -t prog_pid < <(pgrep -la "4-to_infinity_and_beyond")
 
-# Debugging output
-echo "Found PIDs: ${prog_pid[*]}"
-
 # Check if any PIDs were found
 if [[ ${#prog_pid[@]} -eq 0 ]]; then
-    echo "No running instance of 4-to_infinity_and_beyond found."
-    exit 1
+    exit 0  # Exit quietly if no process found
 fi
 
 # Iterate over the PIDs and kill each one
 for pid in "${prog_pid[@]}"; do
     kill -s SIGTERM "$pid"  # Send the SIGTERM signal
-    echo "Process 4-to_infinity_and_beyond (PID: $pid) has been terminated."
 done
 
