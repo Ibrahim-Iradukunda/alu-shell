@@ -1,6 +1,23 @@
 #!/usr/bin/env bash
-# This script manages its PID, runs indefinitely, and handles signals
-while [[ 1 -eq 1 ]]; do
-echo "I am alive!" >> /tmp/my_process
-sleep 2
+# This script manages its PID, runs indefinitely, and handles signals.
+
+# Create the PID file
+echo $$ > /var/run/myscript.pid
+
+# Function to handle cleanup
+cleanup() {
+    rm -f /var/run/myscript.pid
+    exit
+}
+
+# Trap signals
+trap 'echo "I hate the kill command"; cleanup' SIGTERM
+trap 'echo "Y U no love me?!";' SIGINT
+trap cleanup SIGQUIT
+
+# Infinite loop to display message
+while true; do
+    echo "To infinity and beyond"
+    sleep 2  # Optional sleep to prevent flooding the terminal
 done
+
