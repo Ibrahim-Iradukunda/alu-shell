@@ -3,14 +3,18 @@
 
 if [[ "$#" == "1" ]]; then
     if [[ "$1" == "start" ]]; then
-        ./manage_my_process &  # Start the manage_my_process script in the background
-        echo "$!" > /var/run/my_process.pid  # Store the process ID in the pid file
-        echo "manage_my_process started"
+        if test -f "/var/run/my_process.pid"; then
+            echo "manage_my_process is already running"
+        else
+            ./manage_my_process &  # Start the manage_my_process script in the background
+            echo "$!" > /var/run/my_process.pid  # Store the process ID in the pid file
+            echo "manage_my_process started"
+        fi
 
     elif [[ "$1" == "stop" ]]; then
         if test -f "/var/run/my_process.pid"; then
             kill "$(cat /var/run/my_process.pid)"  # Kill the process
-            rm /var/run/my_process.pid  # Remove the PID file (corrected from rm/var/run)
+            rm /var/run/my_process.pid  # Remove the PID file
             echo "manage_my_process stopped"
         else
             echo "No running instance of manage_my_process found."
@@ -19,12 +23,12 @@ if [[ "$#" == "1" ]]; then
     elif [[ "$1" == "restart" ]]; then
         # Stop the program if running
         if test -f "/var/run/my_process.pid"; then
-            kill "$(cat /var/run/my_process.pid)"
-            rm /var/run/my_process.pid
+            kill "$(cat /var/run/my_process.pid)"  # Stop the process
+            rm /var/run/my_process.pid  # Remove the PID file
         fi
         # Start the program again
         ./manage_my_process &  # Restart the process
-        echo "$!" > /var/run/my_process.pid
+        echo "$!" > /var/run/my_process.pid  # Store the new process ID
         echo "manage_my_process restarted"
 
     else
