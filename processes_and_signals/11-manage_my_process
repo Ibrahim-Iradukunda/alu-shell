@@ -1,28 +1,41 @@
 #!/usr/bin/env bash
-#manage
-if [[ "$#" == "1" ]]; then 
-	if [[ "$1" == "start" ]]; then
-	./manage_my_process & 
-	echo "$!" > /var/run/my_process.pid
-       	echo "manage_my_process started"
-elif [[ "$1" == "stop" ]]; then
-       	if test -f "/var/run/my_process.pid"; then 
-	kill "$(cat /var/run/my_process.pid)"
-fi
-rm /var/run/my_process.pid
-echo "manage_my_process stopped"
-elif [[ "$1" == "restart" ]]; then
-#stop program 
-if test -f "/var/run/my_process.pid"; then
-	kill "$(cat /var/run/my_process.pid)"
-fi
-#start program 
-./manage_my_process & 
-echo "$!" > /var/run/my_process.pid 
-echo "manage_my_process restarted"
+# manage
+
+if [[ "$#" == "1" ]]; then
+    if [[ "$1" == "start" ]]; then
+        ./manage_my_process &
+        echo "$!" > /var/run/my_process.pid
+        echo "manage_my_process started"
+        
+    elif [[ "$1" == "stop" ]]; then
+        if test -f "/var/run/my_process.pid"; then
+            kill "$(cat /var/run/my_process.pid)" 2>/dev/null
+            if [[ $? -eq 0 ]]; then
+                rm /var/run/my_process.pid
+                echo "manage_my_process stopped"
+            else
+                echo "Failed to stop manage_my_process"
+            fi
+        else
+            echo "PID file not found, is the process running?"
+        fi
+        
+    elif [[ "$1" == "restart" ]]; then
+        # Stop program
+        if test -f "/var/run/my_process.pid"; then
+            kill "$(cat /var/run/my_process.pid)" 2>/dev/null
+            rm /var/run/my_process.pid
+        fi
+        
+        # Start program
+        ./manage_my_process &
+        echo "$!" > /var/run/my_process.pid
+        echo "manage_my_process restarted"
+        
+    else
+        echo "Usage: manage_my_process {start|stop|restart}"
+    fi
 else
-echo "Usage: manage_my_process {start|stop|restart}"
+    echo "Usage: manage_my_process {start|stop|restart}"
 fi
-else
-echo "Usage: manage_my_process {start|stop|restart}"
-fi
+
